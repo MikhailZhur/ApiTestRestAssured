@@ -54,4 +54,21 @@ public class ReqresTest {
         Assertions.assertEquals(id, successReg.getId());
         Assertions.assertEquals(token, successReg.getToken());
     }
+
+    @Test
+    public void unSuccessRegTest() {
+        Specifications.installSpecification(Specifications.requestSpec(URL), Specifications.responseSpecError400());
+        String error = "Missing password";
+
+        Register user = new Register("sydney@fife", "");
+
+        UnSuccessReg unSuccessReg = given()
+                .body(user)
+                .when()
+                .post("/api/register")
+                .then().log().all()
+                .extract().as(UnSuccessReg.class);
+
+        Assertions.assertEquals(error,unSuccessReg.getError());
+    }
 }
