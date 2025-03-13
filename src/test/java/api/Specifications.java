@@ -10,7 +10,7 @@ import io.restassured.specification.ResponseSpecification;
 public class Specifications {
 
     public static RequestSpecification requestSpec(String url){
-        return  new RequestSpecBuilder()
+        return new RequestSpecBuilder()
                 .setBaseUri(url)
                 .setContentType(ContentType.JSON)
                 .build();
@@ -28,6 +28,12 @@ public class Specifications {
                 .expectStatusCode(400)
                 .build();
 
+    }
+
+    public static ResponseSpecification responseSpecUnique(){
+        return new ResponseSpecBuilder()
+                .expectStatusCode(204)
+                .build();
     }
 
     public static void installSpecification(RequestSpecification request, ResponseSpecification response){
