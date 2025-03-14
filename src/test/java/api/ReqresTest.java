@@ -4,6 +4,8 @@ import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import javax.swing.*;
+import java.time.Clock;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
@@ -69,6 +71,49 @@ public class ReqresTest {
                 .then().log().all()
                 .extract().as(UnSuccessReg.class);
 
-        Assertions.assertEquals(error,unSuccessReg.getError());
+        Assertions.assertEquals(error, unSuccessReg.getError());
+    }
+
+    @Test
+    public void sortedYearsTest() {
+        Specifications.installSpecification(Specifications.requestSpec(URL), Specifications.responseSpecOk200());
+
+        List<ColorsData> colors = given()
+                .when()
+                .get("/api/unknown")
+                .then().log().all()
+                .extract().jsonPath().getList("data", ColorsData.class);
+
+        List<Integer> years = colors.stream().map(ColorsData::getYear).toList();
+        List<Integer> sortedYears = years.stream().sorted().toList();
+        Assertions.assertEquals(sortedYears, years);
+
+    }
+
+    @Test
+    public void deleteUserTest() {
+        Specifications.installSpecification(Specifications.requestSpec(URL), Specifications.responseSpecUnique(204));
+        given()
+                .when()
+                .delete("/api/users/2")
+                .then().log().all();
+    }
+
+    @Test
+    public void timeTest() {
+        Specifications.installSpecification(Specifications.requestSpec(URL), Specifications.responseSpecOk200());
+        Usertime user = new Usertime("morpheus", "zion resident");
+        UserTimeResponse response = given()
+                .body(user)
+                .when()
+                .put("/api/users/2")
+                .then().log().all()
+                .extract().as(UserTimeResponse.class);
+        String regexEx = "(.{11})$";
+        String regexAct = "(.{5})$";
+        String currentTime = Clock.systemUTC().instant().toString().replaceAll(regexEx, "");
+
+        Assertions.assertEquals(currentTime, response.getUpdatedAt().replaceAll(regexAct, ""));
+
     }
 }

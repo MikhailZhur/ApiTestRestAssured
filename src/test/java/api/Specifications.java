@@ -30,9 +30,9 @@ public class Specifications {
 
     }
 
-    public static ResponseSpecification responseSpecUnique(){
+    public static ResponseSpecification responseSpecUnique(int code){
         return new ResponseSpecBuilder()
-                .expectStatusCode(204)
+                .expectStatusCode(code)
                 .build();
     }
 
