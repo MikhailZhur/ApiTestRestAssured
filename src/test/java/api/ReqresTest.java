@@ -1,6 +1,9 @@
 package api;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -116,4 +119,50 @@ public class ReqresTest {
         Assertions.assertEquals(currentTime, response.getUpdatedAt().replaceAll(regexAct, ""));
 
     }
+
+    @Test
+    public void unsuccessfulRegIfNoPasswordTest(){
+        Specifications.installSpecification(Specifications.requestSpec(URL), Specifications.responseSpecUnique(400));
+        Register user = new Register("peter@klaven");
+        UnSuccessReg unSuccessReg = given()
+                .body(user)
+                .when()
+                .post("/api/login")
+                .then().log().all()
+                .extract().as(UnSuccessReg.class);
+        Assertions.assertEquals("Missing password", unSuccessReg.getError());
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

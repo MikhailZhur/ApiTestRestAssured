@@ -7,6 +7,10 @@ public class Register {
     public Register() {
     }
 
+    public Register(String email){
+        this.email = email;
+    }
+
     public Register(String email, String password) {
         this.email = email;
         this.password = password;
