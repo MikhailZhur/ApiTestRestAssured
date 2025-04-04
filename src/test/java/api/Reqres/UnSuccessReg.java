@@ -1,4 +1,4 @@
-package api;
+package api.Reqres;
 
 public class UnSuccessReg {
      private String error;

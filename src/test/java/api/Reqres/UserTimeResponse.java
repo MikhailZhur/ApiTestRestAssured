@@ -1,4 +1,4 @@
-package api;
+package api.Reqres;
 
 public class UserTimeResponse extends Usertime {
     private String updatedAt;

@@ -1,4 +1,4 @@
-package api;
+package api.Reqres;
 
 public class SuccessReg {
     private Integer id;

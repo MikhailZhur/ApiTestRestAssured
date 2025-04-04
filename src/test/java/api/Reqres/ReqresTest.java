@@ -1,13 +1,9 @@
-package api;
+package api.Reqres;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.restassured.http.ContentType;
-import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.*;
 import java.time.Clock;
 import java.util.List;
 
@@ -131,6 +127,17 @@ public class ReqresTest {
                 .then().log().all()
                 .extract().as(UnSuccessReg.class);
         Assertions.assertEquals("Missing password", unSuccessReg.getError());
+    }
+
+    @Test
+    public void listUsersHaveFirstNameNotNull(){
+        Specifications.installSpecification(Specifications.requestSpec(URL), Specifications.responseSpecOk200());
+        UnSuccessReg user = given()
+                .when()
+                .post("/api/login")
+                .then().log().all()
+                .extract().as(UnSuccessReg.class);
+        Assertions.assertEquals("Missing password", user.getError());
     }
 
 
