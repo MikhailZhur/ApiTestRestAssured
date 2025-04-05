@@ -1,8 +1,17 @@
 package api.Reqres;
 
+import api.Reqres.colors.Colors;
+import api.Reqres.regictration.Register;
+import api.Reqres.regictration.SuccessReg;
+import api.Reqres.regictration.UnSuccessReg;
+import api.Reqres.spec.Specifications;
+import api.Reqres.users.UserData;
+import api.Reqres.users.UserTimeResponse;
+import api.Reqres.users.Usertime;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 import java.time.Clock;
 import java.util.List;
@@ -77,13 +86,13 @@ public class ReqresTest {
     public void sortedYearsTest() {
         Specifications.installSpecification(Specifications.requestSpec(URL), Specifications.responseSpecOk200());
 
-        List<ColorsData> colors = given()
+        List<Colors> colors = given()
                 .when()
                 .get("/api/unknown")
                 .then().log().all()
-                .extract().jsonPath().getList("data", ColorsData.class);
+                .extract().jsonPath().getList("data", Colors.class);
 
-        List<Integer> years = colors.stream().map(ColorsData::getYear).toList();
+        List<Integer> years = colors.stream().map(Colors::getYear).toList();
         List<Integer> sortedYears = years.stream().sorted().toList();
         Assertions.assertEquals(sortedYears, years);
 

@@ -1,4 +1,4 @@
-package api.Reqres;
+package api.Reqres.regictration;
 
 public class Register {
     private String email;
